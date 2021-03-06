@@ -49,7 +49,6 @@ Plug 'preservim/nerdtree'
 Plug 'rip-rip/clang_complete'
 Plug 'morhetz/gruvbox'
 Plug 'jremmen/vim-ripgrep'
-Plug 'valloric/youcompleteme'
 Plug 'tpope/vim-fugitive'
 Plug 'lyuts/vim-rtags'
 Plug 'mbbill/undotree'
@@ -61,6 +60,7 @@ Plug 'preservim/tagbar'
 Plug 'nvim-lua/popup.nvim'
 Plug 'nvim-lua/plenary.nvim'
 Plug 'nvim-telescope/telescope.nvim'
+Plug 'neoclide/coc.nvim', {'do': { -> coc#util#install()}}
 
 call plug#end()
 set background=dark
@@ -98,7 +98,7 @@ nnoremap <Leader>ps :Rg<SPACE>
 nnoremap <silent> <Leader>+ :vertical resize +5<CR>
 nnoremap <silent> <Leader>- :vertical resize -5<CR>
 nnoremap <silent> <F2> :TagbarToggle<CR>
-nnoremap <leader>ga :Git add<CR>
+nnoremap <leader>ga :Git add .<CR>
 nnoremap <leader>gp :Git push<CR>
 vnoremap J :m '>+1<CR>gv=gv
 vnoremap K :m '<-2<CR>gv=gv
@@ -110,34 +110,4 @@ fun! GoYCM()
     nnoremap <buffer> <silent> <leader>rr :YcmCompleter RefactorRename<space>
 endfun
 
-function! s:check_back_space() abort
-    let col = col('.') - 1
-    return !col || getline('.')[col - 1]  =~# '\s'
-endfunction
 
-fun! GoCoc()
-    inoremap <buffer> <silent><expr> <TAB>
-                \ pumvisible() ? "\<C-n>" :
-                \ <SID>check_back_space() ? "\<TAB>" :
-                \ coc#refresh()
-
-    inoremap <buffer> <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
-    inoremap <buffer> <silent><expr> <C-space> coc#refresh()
-
-    " GoTo code navigation.
-    nmap <buffer> <leader>gd <Plug>(coc-definition)
-    nmap <buffer> <leader>gy <Plug>(coc-type-definition)
-    nmap <buffer> <leader>gi <Plug>(coc-implementation)
-    nmap <buffer> <leader>gr <Plug>(coc-references)
-    nnoremap <buffer> <leader>cr :CocRestart
-endfun
-
-fun! TrimWhitespace()
-    let l:save = winsaveview()
-    keeppatterns %s/\s\+$//e
-    call winrestview(l:save)
-endfun
-
-autocmd BufWritePre * :call TrimWhitespace()
-autocmd FileType typescript :call GoYCM()
-autocmd FileType cpp,cxx,h,hpp,c :call GoCoc()
