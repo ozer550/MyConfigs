@@ -1,0 +1,9 @@
+neofetch
+figlet Ozeys terminal
+alias ls='lsd'
+alias lst='ls --tree'
+alias lsl='ls -l'
+alias vim='nvim'
+alias oldvim='vim'
+export VISUAL=nvim;
+export EDITOR=nvim;
