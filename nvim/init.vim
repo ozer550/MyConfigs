@@ -16,11 +16,24 @@ set undodir=~/.vim/undodir
 set undofile
 set incsearch
 set completeopt-=preview
+set clipboard+=unnamedplus
+set spelllang=en
+set spell
+set statusline=%F               " Path to the file
+set statusline+=%=              " Switch to the right side
+set statusline+=col:\ %c,       " Current column
+set statusline+=\ line:\ %l     " Current line
+set statusline+=/               " Separator
+set statusline+=%L              " Total lines
+
+
+
+"
 "
 " Give more space for displaying messages.
 set cmdheight=2
 autocmd TextYankPost * silent! lua require'vim.highlight'.on_yank()
-" Having longer updatetime (default is 4000 ms = 4 s) leads to noticeable
+" Having longer update time (default is 4000 ms = 4 s) leads to noticeable
 " delays and poor user experience.
 set updatetime=50
 
@@ -38,10 +51,12 @@ Plug 'morhetz/gruvbox'
 Plug 'jremmen/vim-ripgrep'
 Plug 'valloric/youcompleteme'
 Plug 'tpope/vim-fugitive'
-Plug 'vim-utils/vim-man'
 Plug 'lyuts/vim-rtags'
 Plug 'mbbill/undotree'
 Plug 'ctrlpvim/ctrlp.vim'
+Plug 'preservim/nerdcommenter'
+Plug 'rhysd/vim-clang-format'
+Plug 'preservim/tagbar'
 
 Plug 'nvim-lua/popup.nvim'
 Plug 'nvim-lua/plenary.nvim'
@@ -82,9 +97,11 @@ nnoremap <leader>pv :wincmd v<bar> :Ex <bar> :vertical resize 30<CR>
 nnoremap <Leader>ps :Rg<SPACE>
 nnoremap <silent> <Leader>+ :vertical resize +5<CR>
 nnoremap <silent> <Leader>- :vertical resize -5<CR>
+nnoremap <silent> <F2> :TagbarToggle<CR>
+nnoremap <leader>ga :Git add<CR>
+nnoremap <leader>gp :Git push<CR>
 vnoremap J :m '>+1<CR>gv=gv
 vnoremap K :m '<-2<CR>gv=gv
-
 
 
 fun! GoYCM()
